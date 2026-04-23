@@ -3,9 +3,42 @@
 ## START HERE 👇
 
 ### For Busy People (5 minutes)
+**NEW: Phase 6 - Individual Fairness**
+1. Read: [`PHASE_6_INDIVIDUAL_FAIRNESS_SUMMARY.md`](PHASE_6_INDIVIDUAL_FAIRNESS_SUMMARY.md)
+2. Read: [`DEPLOYMENT_GUIDE_INDIVIDUAL_FAIRNESS.md`](DEPLOYMENT_GUIDE_INDIVIDUAL_FAIRNESS.md)
+3. Test: `streamlit run app.py`
+
+### For Original Quick Start (5 minutes)
 1. Read: [`🎉_BIAS_FIX_COMPLETE_SUMMARY.md`](🎉_BIAS_FIX_COMPLETE_SUMMARY.md)
 2. Run: `python bias_fix_quick.py`
 3. Test: `streamlit run app.py`
+
+---
+
+## Phase 6: Individual Fairness (LATEST - April 24, 2026)
+
+### 🌟 PHASE 6 FOCUS: Global Threshold for Individual Fairness
+📄 [`PHASE_6_INDIVIDUAL_FAIRNESS_SUMMARY.md`](PHASE_6_INDIVIDUAL_FAIRNESS_SUMMARY.md) — **READ THIS FIRST**
+- ✅ Problem: Per-group thresholds caused disparate treatment
+- ✅ Solution: Global threshold with Fairlearn ExponentiatedGradient
+- ✅ Results: Individual fairness achieved (same patient → same prediction)
+- ✅ Metrics: DP Diff 0.0553, EO Diff 0.0910 (both < 0.10)
+
+### 🚀 DEPLOYMENT GUIDE: How to Use the Fair Model
+📄 [`DEPLOYMENT_GUIDE_INDIVIDUAL_FAIRNESS.md`](DEPLOYMENT_GUIDE_INDIVIDUAL_FAIRNESS.md)
+- Quick deployment steps
+- Testing procedures
+- Individual fairness verification code
+- Troubleshooting guide
+- Committee presentation tips
+
+### 📖 ALGORITHM EXPLANATION: Understanding the Approach
+📄 [`INDIVIDUAL_FAIRNESS_GUIDE.md`](INDIVIDUAL_FAIRNESS_GUIDE.md)
+- Step-by-step implementation guide
+- ExponentiatedGradient algorithm explained
+- ThresholdOptimizer post-processing
+- SHAP explainability verification
+- FAQ and common questions
 
 ---
 

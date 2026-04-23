@@ -1,0 +1,153 @@
+{
+  "baseline": {
+    "dem_parity_diff": 0.18652205491777507,
+    "eq_odds_diff": 0.15927260554505357,
+    "disparity_ratio": 1.583494980513861,
+    "auc": 0.7207343452252168,
+    "group_disparities": {
+      "American Indian or Alaska Native": {
+        "n": 966.0,
+        "positive_rate": 0.427536231884058,
+        "tpr": 0.5982905982905983,
+        "fpr": 0.26706827309236947,
+        "auc": 0.7190814540212132
+      },
+      "Asian": {
+        "n": 946.0,
+        "positive_rate": 0.35517970401691334,
+        "tpr": 0.5227817745803357,
+        "fpr": 0.223062381852552,
+        "auc": 0.7172485074322394
+      },
+      "Black or African-American": {
+        "n": 995.0,
+        "positive_rate": 0.43316582914572865,
+        "tpr": 0.6021739130434782,
+        "fpr": 0.28785046728971964,
+        "auc": 0.7171190572937831
+      },
+      "More than one race": {
+        "n": 970.0,
+        "positive_rate": 0.5061855670103093,
+        "tpr": 0.6540642722117203,
+        "fpr": 0.32879818594104304,
+        "auc": 0.7234245935299135
+      },
+      "Native Hawaiian or other Pacific Islander": {
+        "n": 932.0,
+        "positive_rate": 0.4184549356223176,
+        "tpr": 0.5870535714285714,
+        "fpr": 0.262396694214876,
+        "auc": 0.7287485242030697
+      },
+      "White": {
+        "n": 951.0,
+        "positive_rate": 0.3196635120925342,
+        "tpr": 0.4947916666666667,
+        "fpr": 0.20105820105820105,
+        "auc": 0.6966674015285127
+      }
+    }
+  },
+  "fairlearn_mitigated": {
+    "dem_parity_diff": 0.08934816308389432,
+    "eq_odds_diff": 0.06982211235519364,
+    "disparity_ratio": 1.2315261661462271,
+    "auc": 0.7207343452252168,
+    "group_disparities": {
+      "American Indian or Alaska Native": {
+        "n": 966.0,
+        "positive_rate": 0.40062111801242234,
+        "tpr": 0.5256410256410257,
+        "fpr": 0.2831325301204819,
+        "auc": 0.7190814540212132
+      },
+      "Asian": {
+        "n": 946.0,
+        "positive_rate": 0.3890063424947146,
+        "tpr": 0.5275779376498801,
+        "fpr": 0.27977315689981097,
+        "auc": 0.7172485074322394
+      },
+      "Black or African-American": {
+        "n": 995.0,
+        "positive_rate": 0.40904522613065325,
+        "tpr": 0.532608695652174,
+        "fpr": 0.302803738317757,
+        "auc": 0.7171190572937831
+      },
+      "More than one race": {
+        "n": 970.0,
+        "positive_rate": 0.47525773195876286,
+        "tpr": 0.5954631379962193,
+        "fpr": 0.3310657596371882,
+        "auc": 0.7234245935299135
+      },
+      "Native Hawaiian or other Pacific Islander": {
+        "n": 932.0,
+        "positive_rate": 0.40987124463519314,
+        "tpr": 0.5647321428571429,
+        "fpr": 0.26652892561983466,
+        "auc": 0.7287485242030697
+      },
+      "White": {
+        "n": 951.0,
+        "positive_rate": 0.38590956887486855,
+        "tpr": 0.5338541666666666,
+        "fpr": 0.2857142857142857,
+        "auc": 0.6966674015285127
+      }
+    }
+  },
+  "threshold_optimized": {
+    "dem_parity_diff": 0.0550714948131214,
+    "eq_odds_diff": 0.08449710012210021,
+    "disparity_ratio": 1.1369903430648132,
+    "auc": 0.7207343452252168,
+    "group_disparities": {
+      "American Indian or Alaska Native": {
+        "n": 966.0,
+        "positive_rate": 0.40476190476190477,
+        "tpr": 0.5427350427350427,
+        "fpr": 0.2751004016064257,
+        "auc": 0.7190814540212132
+      },
+      "Asian": {
+        "n": 946.0,
+        "positive_rate": 0.4164904862579281,
+        "tpr": 0.5683453237410072,
+        "fpr": 0.2967863894139886,
+        "auc": 0.7172485074322394
+      },
+      "Black or African-American": {
+        "n": 995.0,
+        "positive_rate": 0.4020100502512563,
+        "tpr": 0.5543478260869565,
+        "fpr": 0.2710280373831776,
+        "auc": 0.7171190572937831
+      },
+      "More than one race": {
+        "n": 970.0,
+        "positive_rate": 0.45463917525773195,
+        "tpr": 0.6011342155009451,
+        "fpr": 0.2789115646258503,
+        "auc": 0.7234245935299135
+      },
+      "Native Hawaiian or other Pacific Islander": {
+        "n": 932.0,
+        "positive_rate": 0.4570815450643777,
+        "tpr": 0.6272321428571429,
+        "fpr": 0.2995867768595041,
+        "auc": 0.7287485242030697
+      },
+      "White": {
+        "n": 951.0,
+        "positive_rate": 0.4069400630914827,
+        "tpr": 0.5677083333333334,
+        "fpr": 0.29805996472663143,
+        "auc": 0.6966674015285127
+      }
+    }
+  },
+  "conclusion": "Use Threshold-Optimized model for global fairness (same threshold for all races)"
+}
