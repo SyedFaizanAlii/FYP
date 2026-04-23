@@ -1,0 +1,16 @@
+{
+  "dp_before": 0.3024257894117348,
+  "eo_before": 0.27101218972522834,
+  "dp_after_reweight": 0.2904469094613627,
+  "eo_after_reweight": 0.2545190489600515,
+  "dp_after_thresh": 0.07480797284650492,
+  "eo_after_thresh": 0.013891947244704883,
+  "thresholds": {
+    "American Indian or Alaska Native": 0.5199999999999998,
+    "Asian": 0.48999999999999977,
+    "Black or African-American": 0.47999999999999976,
+    "More than one race": 0.5599999999999997,
+    "Native Hawaiian or other Pacific Islander": 0.5099999999999998,
+    "White": 0.4199999999999998
+  }
+}
