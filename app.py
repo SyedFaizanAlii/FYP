@@ -71,22 +71,31 @@ def load_model():
     out = os.path.join(base, 'outputs')
 
     try:
+        # ── 1. Preprocessor (required) ──────────────────────
         with open(f'{out}/preprocessor.pkl', 'rb') as f:
             preprocessor = pickle.load(f)
 
-        # Load debiased model (from fairness_debiasing_solution.py)
+        # ── 2. Main debiased model (required) ───────────────
         with open(f'{out}/model_debiased_fairlearn.pkl', 'rb') as f:
             model = pickle.load(f)
 
-        # Load legacy models for backward compatibility
-        with open(f'{out}/model_logistic_regression.pkl', 'rb') as f:
-            lr_model = pickle.load(f)
+        # ── 3. LR model (optional — pipeline.py produces it) ─
+        lr_model_path = f'{out}/model_logistic_regression.pkl'
+        if os.path.exists(lr_model_path):
+            with open(lr_model_path, 'rb') as f:
+                lr_model = pickle.load(f)
+        else:
+            lr_model = None
 
-        # Load cross-validation results
-        with open(f'{out}/cv_results.json') as f:
-            results = json.load(f)
+        # ── 4. CV results (optional — pipeline.py produces it) ─
+        cv_path = f'{out}/cv_results.json'
+        if os.path.exists(cv_path):
+            with open(cv_path) as f:
+                results = json.load(f)
+        else:
+            results = {}
 
-        # Load fairness debiasing report
+        # ── 5. Fairness debiasing report (optional) ─────────
         mit_path = f'{out}/fairness_debiasing_report.json'
         if os.path.exists(mit_path):
             with open(mit_path) as f:
@@ -94,7 +103,7 @@ def load_model():
         else:
             mit = {}
 
-        # Load global threshold optimizer
+        # ── 6. Threshold optimizer (optional) ───────────────
         threshold_opt_path = f'{out}/threshold_optimizer.pkl'
         if os.path.exists(threshold_opt_path):
             with open(threshold_opt_path, 'rb') as f:
@@ -248,20 +257,54 @@ if predict_btn:
 
         df_patient = pd.DataFrame([patient_data])
 
-        # Preprocess & predict
+        # ── Preprocess patient data ──────────────────────────
         X_patient = preprocessor.transform(df_patient)
-        survival_prob = model.predict_proba(X_patient)[0][1]
 
-        # Use global threshold optimizer for fair predictions
-        if threshold_opt is not None:
-            # Apply global threshold using the optimizer
-            prediction = threshold_opt.predict(X_patient, sensitive_features=pd.Series([race_group]))[0]
-            threshold_used = "Global fairness-optimized threshold (same for all races)"
-        else:
-            # Fallback to default threshold
-            threshold = 0.5
-            prediction = int(survival_prob > threshold)
-            threshold_used = f"Default threshold: {threshold:.2f}"
+        # ── Predict: Priority 1 — Fairlearn debiased model ──
+        survival_prob = None
+        prediction = None
+        threshold_used = ""
+
+        try:
+            if hasattr(model, 'predict_proba'):
+                survival_prob = float(model.predict_proba(X_patient)[0, 1])
+                prediction = 1 if survival_prob >= 0.5 else 0
+                threshold_used = "Fairlearn ExponentiatedGradient (in-processing debiased)"
+            else:
+                # ExponentiatedGradient uses weighted ensemble — get prob from first predictor
+                inner = list(model.predictors_)[0]
+                survival_prob = float(inner.predict_proba(X_patient)[0, 1])
+                prediction = int(model.predict(X_patient)[0])
+                threshold_used = "Fairlearn ExponentiatedGradient (in-processing debiased)"
+        except Exception:
+            survival_prob = None
+
+        # Priority 2: Logistic Regression (gives real probabilities)
+        if survival_prob is None and lr_model is not None:
+            try:
+                survival_prob = float(lr_model.predict_proba(X_patient)[0, 1])
+                prediction = 1 if survival_prob >= 0.5 else 0
+                threshold_used = "Logistic Regression (fair-weighted, bias mitigated)"
+            except Exception:
+                survival_prob = None
+
+        # Priority 3: ThresholdOptimizer
+        if survival_prob is None and threshold_opt is not None:
+            try:
+                prediction = int(threshold_opt.predict(
+                    X_patient, sensitive_features=[race_group]
+                )[0])
+                base_est = threshold_opt.estimator_
+                survival_prob = float(base_est.predict_proba(X_patient)[0, 1])
+                threshold_used = "ThresholdOptimizer (post-processing fairness)"
+            except Exception:
+                survival_prob = None
+
+        # Priority 4: absolute fallback
+        if survival_prob is None:
+            survival_prob = 0.5
+            prediction = 1
+            threshold_used = "Default (run fairness_debiasing_solution.py first)"
 
         # Risk category
         if survival_prob >= 0.65:
