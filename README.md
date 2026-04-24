@@ -1,8 +1,4 @@
 # Equitable Survival Prediction after HCT By ML
-## KFUEIT Final Year Project 2025
-**Authors:** Muzammil Tariq (COSC221101002) | Syed Faizan Ali (COSC221101046)  
-**Supervisor:** Dr. Saima Noreen Khosa
-
 ---
 
 ## Project Structure
