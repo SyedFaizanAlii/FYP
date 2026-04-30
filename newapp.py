@@ -435,17 +435,21 @@ with st.sidebar:
 
 # ─── Predict button ───────────────────────────────────────────────────────────
 col_pad1, col_btn, col_pad2 = st.columns([1, 2, 1])
+
 with col_btn:
-    predict_btn = st.button("🔬  PREDICT SURVIVAL & EXPLAIN")
+    predict_btn = st.button(
+        "🔬  PREDICT SURVIVAL & EXPLAIN", 
+        use_container_width=True
+    )
 
 # ═══════════════════════════════════════════════════════════
-#  MAIN TABS
+#  MAIN TABS tab_eda, tab_model, tab_fairness,
 # ═══════════════════════════════════════════════════════════
-tab_predict, tab_eda, tab_model, tab_fairness, tab_about = st.tabs([
+tab_predict, tab_about = st.tabs([
     "🔍 Patient Prediction",
-    "📊 Data Overview",
-    "🤖 Model Performance",
-    "⚖️ Fairness Analysis",
+    # "📊 Data Overview",
+    # "🤖 Model Performance",
+    # "⚖️ Fairness Analysis",
     "ℹ️ About"
 ])
 
@@ -776,246 +780,246 @@ with tab_predict:
         </div>
         """, unsafe_allow_html=True)
 
-# ════════════════════════════════════════════════════════════════════════════════
-#  TAB 2 — DATA OVERVIEW (EDA)
-# ════════════════════════════════════════════════════════════════════════════════
-with tab_eda:
-    st.markdown("<div class='section-title'>📊 Patient Data Overview</div>", unsafe_allow_html=True)
-    st.markdown("""
-    <p style='color:#37474F;'>
-    These charts were generated from the full HCT dataset of <b>28,800 patients</b>.
-    They show the distribution of key clinical variables and how they relate to 1-year survival.
-    </p>
-    """, unsafe_allow_html=True)
+# # ════════════════════════════════════════════════════════════════════════════════
+# #  TAB 2 — DATA OVERVIEW (EDA)
+# # ════════════════════════════════════════════════════════════════════════════════
+# with tab_eda:
+#     st.markdown("<div class='section-title'>📊 Patient Data Overview</div>", unsafe_allow_html=True)
+#     st.markdown("""
+#     <p style='color:#37474F;'>
+#     These charts were generated from the full HCT dataset of <b>28,800 patients</b>.
+#     They show the distribution of key clinical variables and how they relate to 1-year survival.
+#     </p>
+#     """, unsafe_allow_html=True)
 
-    p = load_image('01_eda.png')
-    if p:
-        st.image(p, use_container_width=True)
-        st.markdown("<div class='img-caption'>Figure 1: Exploratory Data Analysis — 6 key views of the HCT dataset</div>",
-                    unsafe_allow_html=True)
-    else:
-        st.warning("Run pipeline.py to generate data overview charts.")
+#     p = load_image('01_eda.png')
+#     if p:
+#         st.image(p, use_container_width=True)
+#         st.markdown("<div class='img-caption'>Figure 1: Exploratory Data Analysis — 6 key views of the HCT dataset</div>",
+#                     unsafe_allow_html=True)
+#     else:
+#         st.warning("Run pipeline.py to generate data overview charts.")
 
-    st.markdown("---")
-    col_e1, col_e2, col_e3 = st.columns(3)
-    col_e1.markdown("""
-    <div class='card card-blue'>
-        <h4 style='color:#0D47A1;'>📌 What These Charts Show</h4>
-        <ul style='font-size:0.92rem;'>
-            <li>How many patients survived vs did not survive 1 year</li>
-            <li>Survival rates broken down by patient racial background</li>
-            <li>Patient age distribution at time of transplant</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-    col_e2.markdown("""
-    <div class='card card-orange'>
-        <h4 style='color:#E65100;'>⚠️ What to Watch For</h4>
-        <ul style='font-size:0.92rem;'>
-            <li>Survival rate differences across racial groups reflect systemic access barriers</li>
-            <li>Older patients generally face higher risk</li>
-            <li>Missing data fields can affect model reliability</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-    col_e3.markdown("""
-    <div class='card card-green'>
-        <h4 style='color:#1A7A4E;'>✅ Dataset Quality</h4>
-        <ul style='font-size:0.92rem;'>
-            <li>28,800 patients across multiple transplant centres</li>
-            <li>58 clinical features per patient</li>
-            <li>Multiple racial/ethnic groups represented</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+#     st.markdown("---")
+#     col_e1, col_e2, col_e3 = st.columns(3)
+#     col_e1.markdown("""
+#     <div class='card card-blue'>
+#         <h4 style='color:#0D47A1;'>📌 What These Charts Show</h4>
+#         <ul style='font-size:0.92rem;'>
+#             <li>How many patients survived vs did not survive 1 year</li>
+#             <li>Survival rates broken down by patient racial background</li>
+#             <li>Patient age distribution at time of transplant</li>
+#         </ul>
+#     </div>
+#     """, unsafe_allow_html=True)
+#     col_e2.markdown("""
+#     <div class='card card-orange'>
+#         <h4 style='color:#E65100;'>⚠️ What to Watch For</h4>
+#         <ul style='font-size:0.92rem;'>
+#             <li>Survival rate differences across racial groups reflect systemic access barriers</li>
+#             <li>Older patients generally face higher risk</li>
+#             <li>Missing data fields can affect model reliability</li>
+#         </ul>
+#     </div>
+#     """, unsafe_allow_html=True)
+#     col_e3.markdown("""
+#     <div class='card card-green'>
+#         <h4 style='color:#1A7A4E;'>✅ Dataset Quality</h4>
+#         <ul style='font-size:0.92rem;'>
+#             <li>28,800 patients across multiple transplant centres</li>
+#             <li>58 clinical features per patient</li>
+#             <li>Multiple racial/ethnic groups represented</li>
+#         </ul>
+#     </div>
+#     """, unsafe_allow_html=True)
 
 # ════════════════════════════════════════════════════════════════════════════════
 #  TAB 3 — MODEL PERFORMANCE
 # ════════════════════════════════════════════════════════════════════════════════
-with tab_model:
-    st.markdown("<div class='section-title'>🤖 How Well Does the Model Perform?</div>",
-                unsafe_allow_html=True)
+# with tab_model:
+#     st.markdown("<div class='section-title'>🤖 How Well Does the Model Perform?</div>",
+#                 unsafe_allow_html=True)
 
-    # Live metrics from JSON
-    if cv_results and best_info:
-        bname = best_info.get('best_model_name', 'Best Model')
-        m1, m2, m3, m4 = st.columns(4)
-        auc_val = best_info.get('best_auc', 0)
-        acc_val = best_info.get('best_accuracy', 0)
-        f1_val  = best_info.get('best_f1', 0)
-        rec_val = best_info.get('best_recall', 0)
-        m1.metric("Overall Accuracy (AUC)", f"{auc_val:.3f}",
-                  delta="✓ Above 0.70 target" if auc_val >= 0.70 else "Below target")
-        m2.metric("Correct Predictions", f"{acc_val*100:.1f}%")
-        m3.metric("Balanced Score (F1)", f"{f1_val:.3f}")
-        m4.metric("Survivor Detection", f"{rec_val*100:.1f}%")
+#     # Live metrics from JSON
+#     if cv_results and best_info:
+#         bname = best_info.get('best_model_name', 'Best Model')
+#         m1, m2, m3, m4 = st.columns(4)
+#         auc_val = best_info.get('best_auc', 0)
+#         acc_val = best_info.get('best_accuracy', 0)
+#         f1_val  = best_info.get('best_f1', 0)
+#         rec_val = best_info.get('best_recall', 0)
+#         m1.metric("Overall Accuracy (AUC)", f"{auc_val:.3f}",
+#                   delta="✓ Above 0.70 target" if auc_val >= 0.70 else "Below target")
+#         m2.metric("Correct Predictions", f"{acc_val*100:.1f}%")
+#         m3.metric("Balanced Score (F1)", f"{f1_val:.3f}")
+#         m4.metric("Survivor Detection", f"{rec_val*100:.1f}%")
 
-        st.markdown(f"""
-        <div class='card card-blue'>
-            <b>Best Performing Model:</b> {bname} &nbsp;
-            <span class='metric-badge badge-{'green' if auc_val>=0.70 else 'orange'}'>
-                AUC = {auc_val:.4f} {'✓' if auc_val>=0.70 else '~'}
-            </span>
-        </div>
-        """, unsafe_allow_html=True)
+#         st.markdown(f"""
+#         <div class='card card-blue'>
+#             <b>Best Performing Model:</b> {bname} &nbsp;
+#             <span class='metric-badge badge-{'green' if auc_val>=0.70 else 'orange'}'>
+#                 AUC = {auc_val:.4f} {'✓' if auc_val>=0.70 else '~'}
+#             </span>
+#         </div>
+#         """, unsafe_allow_html=True)
 
-    # Model comparison charts
-    p2 = load_image('02_model_comparison.png')
-    if p2:
-        st.image(p2, use_container_width=True)
-        st.markdown("<div class='img-caption'>Figure 2: Model performance comparison across 5 rounds of testing</div>",
-                    unsafe_allow_html=True)
-    else:
-        st.warning("Run pipeline.py to generate model comparison charts.")
+#     # Model comparison charts
+#     p2 = load_image('02_model_comparison.png')
+#     if p2:
+#         st.image(p2, use_container_width=True)
+#         st.markdown("<div class='img-caption'>Figure 2: Model performance comparison across 5 rounds of testing</div>",
+#                     unsafe_allow_html=True)
+#     else:
+#         st.warning("Run pipeline.py to generate model comparison charts.")
 
-    st.markdown("---")
-    p3 = load_image('03_roc_confusion.png')
-    if p3:
-        st.image(p3, use_container_width=True)
-        st.markdown("<div class='img-caption'>Figure 3: Detailed accuracy curves and prediction-vs-reality matrix</div>",
-                    unsafe_allow_html=True)
+#     st.markdown("---")
+#     p3 = load_image('03_roc_confusion.png')
+#     if p3:
+#         st.image(p3, use_container_width=True)
+#         st.markdown("<div class='img-caption'>Figure 3: Detailed accuracy curves and prediction-vs-reality matrix</div>",
+#                     unsafe_allow_html=True)
 
-    st.markdown("---")
-    st.markdown("<div class='section-title'>🔑 Most Important Clinical Factors</div>",
-                unsafe_allow_html=True)
-    p4 = load_image('04_feature_importance.png')
-    if p4:
-        st.image(p4, use_container_width=True)
-        st.markdown("<div class='img-caption'>Figure 4: Which patient factors matter most — and in which direction</div>",
-                    unsafe_allow_html=True)
+#     st.markdown("---")
+#     st.markdown("<div class='section-title'>🔑 Most Important Clinical Factors</div>",
+#                 unsafe_allow_html=True)
+#     p4 = load_image('04_feature_importance.png')
+#     if p4:
+#         st.image(p4, use_container_width=True)
+#         st.markdown("<div class='img-caption'>Figure 4: Which patient factors matter most — and in which direction</div>",
+#                     unsafe_allow_html=True)
 
-    # Top factors table from JSON
-    if top_features and top_features.get('friendly_names'):
-        st.markdown("---")
-        st.markdown("**Top 10 Most Important Clinical Factors (from pipeline)**")
-        top_df = pd.DataFrame({
-            'Clinical Factor'     : top_features['friendly_names'][:10],
-            'Importance Score'    : [f"{v:.4f}" for v in top_features['importances'][:10]],
-        })
-        top_df.index = range(1, len(top_df)+1)
-        st.dataframe(top_df, use_container_width=True)
+#     # Top factors table from JSON
+#     if top_features and top_features.get('friendly_names'):
+#         st.markdown("---")
+#         st.markdown("**Top 10 Most Important Clinical Factors (from pipeline)**")
+#         top_df = pd.DataFrame({
+#             'Clinical Factor'     : top_features['friendly_names'][:10],
+#             'Importance Score'    : [f"{v:.4f}" for v in top_features['importances'][:10]],
+#         })
+#         top_df.index = range(1, len(top_df)+1)
+#         st.dataframe(top_df, use_container_width=True)
 
-    # Model metric explanations
-    st.markdown("---")
-    with st.expander("📖 What Do These Metrics Mean for a Doctor?"):
-        st.markdown("""
-        | Metric | What It Means | Good Value |
-        |--------|---------------|------------|
-        | **AUC (Overall Accuracy)** | How well the model separates survivors from non-survivors. 1.0 = perfect, 0.5 = random guessing | ≥ 0.70 ✓ |
-        | **Correct Predictions** | % of all patients correctly classified | ≥ 65% |
-        | **Survivor Detection (Recall/Sensitivity)** | % of actual survivors the model correctly identified | ≥ 75% |
-        | **Prediction Reliability (Precision)** | When model says "will survive", how often is it right? | ≥ 60% |
-        | **Balanced Score (F1)** | Balance between detecting survivors and being reliable | ≥ 0.65 |
-        """)
+#     # Model metric explanations
+#     st.markdown("---")
+#     with st.expander("📖 What Do These Metrics Mean for a Doctor?"):
+#         st.markdown("""
+#         | Metric | What It Means | Good Value |
+#         |--------|---------------|------------|
+#         | **AUC (Overall Accuracy)** | How well the model separates survivors from non-survivors. 1.0 = perfect, 0.5 = random guessing | ≥ 0.70 ✓ |
+#         | **Correct Predictions** | % of all patients correctly classified | ≥ 65% |
+#         | **Survivor Detection (Recall/Sensitivity)** | % of actual survivors the model correctly identified | ≥ 75% |
+#         | **Prediction Reliability (Precision)** | When model says "will survive", how often is it right? | ≥ 60% |
+#         | **Balanced Score (F1)** | Balance between detecting survivors and being reliable | ≥ 0.65 |
+#         """)
 
-    # Summary chart
-    p7 = load_image('07_final_summary.png')
-    if p7:
-        st.markdown("---")
-        st.image(p7, use_container_width=True)
-        st.markdown("<div class='img-caption'>Figure 7: Final results summary across all models and fairness metrics</div>",
-                    unsafe_allow_html=True)
+#     # Summary chart
+#     p7 = load_image('07_final_summary.png')
+#     if p7:
+#         st.markdown("---")
+#         st.image(p7, use_container_width=True)
+#         st.markdown("<div class='img-caption'>Figure 7: Final results summary across all models and fairness metrics</div>",
+#                     unsafe_allow_html=True)
 
-# ════════════════════════════════════════════════════════════════════════════════
-#  TAB 4 — FAIRNESS ANALYSIS
-# ════════════════════════════════════════════════════════════════════════════════
-with tab_fairness:
-    st.markdown("<div class='section-title'>⚖️ Is the Model Fair to All Patients?</div>",
-                unsafe_allow_html=True)
-    st.markdown("""
-    <p style='color:#37474F; max-width:900px;'>
-    A model is <b>fair</b> if it makes equally accurate predictions for patients of all
-    racial/ethnic backgrounds with the same clinical profile.
-    We measure this with two key metrics — both should be <b>below 0.10</b>.
-    </p>
-    """, unsafe_allow_html=True)
+# # ════════════════════════════════════════════════════════════════════════════════
+# #  TAB 4 — FAIRNESS ANALYSIS
+# # ════════════════════════════════════════════════════════════════════════════════
+# with tab_fairness:
+#     st.markdown("<div class='section-title'>⚖️ Is the Model Fair to All Patients?</div>",
+#                 unsafe_allow_html=True)
+#     st.markdown("""
+#     <p style='color:#37474F; max-width:900px;'>
+#     A model is <b>fair</b> if it makes equally accurate predictions for patients of all
+#     racial/ethnic backgrounds with the same clinical profile.
+#     We measure this with two key metrics — both should be <b>below 0.10</b>.
+#     </p>
+#     """, unsafe_allow_html=True)
 
-    # Live fairness metrics
-    if fairness_data and mit_results:
-        best_name = best_info.get('best_model_name', list(fairness_data.keys())[0]) if best_info else list(fairness_data.keys())[0]
-        if best_name in fairness_data:
-            bf = fairness_data[best_name]
-            dp_b = bf['demographic_parity_diff']
-            eo_b = bf['equal_opportunity_diff']
-            dp_a = mit_results.get('dp_after_reweight', dp_b)
-            eo_a = mit_results.get('eo_after_reweight', eo_b)
+#     # Live fairness metrics
+#     if fairness_data and mit_results:
+#         best_name = best_info.get('best_model_name', list(fairness_data.keys())[0]) if best_info else list(fairness_data.keys())[0]
+#         if best_name in fairness_data:
+#             bf = fairness_data[best_name]
+#             dp_b = bf['demographic_parity_diff']
+#             eo_b = bf['equal_opportunity_diff']
+#             dp_a = mit_results.get('dp_after_reweight', dp_b)
+#             eo_a = mit_results.get('eo_after_reweight', eo_b)
 
-            col_fa1, col_fa2, col_fa3, col_fa4 = st.columns(4)
-            col_fa1.metric("Equal Prediction Gap (Before)", f"{dp_b:.4f}",
-                           delta="Needs fixing" if dp_b > 0.10 else "Already fair",
-                           delta_color="inverse")
-            col_fa2.metric("Equal Detection Gap (Before)", f"{eo_b:.4f}",
-                           delta="Needs fixing" if eo_b > 0.10 else "Already fair",
-                           delta_color="inverse")
-            col_fa3.metric("Equal Prediction Gap (After)", f"{dp_a:.4f}",
-                           delta=f"{'✓ PASS' if dp_a<=0.10 else 'Still high'}",
-                           delta_color="normal" if dp_a<=0.10 else "inverse")
-            col_fa4.metric("Equal Detection Gap (After)", f"{eo_a:.4f}",
-                           delta=f"{'✓ PASS' if eo_a<=0.10 else 'Still high'}",
-                           delta_color="normal" if eo_a<=0.10 else "inverse")
+#             col_fa1, col_fa2, col_fa3, col_fa4 = st.columns(4)
+#             col_fa1.metric("Equal Prediction Gap (Before)", f"{dp_b:.4f}",
+#                            delta="Needs fixing" if dp_b > 0.10 else "Already fair",
+#                            delta_color="inverse")
+#             col_fa2.metric("Equal Detection Gap (Before)", f"{eo_b:.4f}",
+#                            delta="Needs fixing" if eo_b > 0.10 else "Already fair",
+#                            delta_color="inverse")
+#             col_fa3.metric("Equal Prediction Gap (After)", f"{dp_a:.4f}",
+#                            delta=f"{'✓ PASS' if dp_a<=0.10 else 'Still high'}",
+#                            delta_color="normal" if dp_a<=0.10 else "inverse")
+#             col_fa4.metric("Equal Detection Gap (After)", f"{eo_a:.4f}",
+#                            delta=f"{'✓ PASS' if eo_a<=0.10 else 'Still high'}",
+#                            delta_color="normal" if eo_a<=0.10 else "inverse")
 
-    p5 = load_image('05_fairness_evaluation.png')
-    if p5:
-        st.image(p5, use_container_width=True)
-        st.markdown("<div class='img-caption'>Figure 5: Fairness evaluation across all racial/ethnic groups — 4 views</div>",
-                    unsafe_allow_html=True)
-    else:
-        st.warning("Run pipeline.py to generate fairness charts.")
+#     p5 = load_image('05_fairness_evaluation.png')
+#     if p5:
+#         st.image(p5, use_container_width=True)
+#         st.markdown("<div class='img-caption'>Figure 5: Fairness evaluation across all racial/ethnic groups — 4 views</div>",
+#                     unsafe_allow_html=True)
+#     else:
+#         st.warning("Run pipeline.py to generate fairness charts.")
 
-    st.markdown("---")
-    st.markdown("<div class='section-title'>🛠️ How We Corrected the Bias</div>",
-                unsafe_allow_html=True)
+#     st.markdown("---")
+#     st.markdown("<div class='section-title'>🛠️ How We Corrected the Bias</div>",
+#                 unsafe_allow_html=True)
 
-    p6 = load_image('06_bias_mitigation.png')
-    if p6:
-        st.image(p6, use_container_width=True)
-        st.markdown("<div class='img-caption'>Figure 6: Before and after bias correction — three techniques compared</div>",
-                    unsafe_allow_html=True)
+#     p6 = load_image('06_bias_mitigation.png')
+#     if p6:
+#         st.image(p6, use_container_width=True)
+#         st.markdown("<div class='img-caption'>Figure 6: Before and after bias correction — three techniques compared</div>",
+#                     unsafe_allow_html=True)
 
-    # Bias mitigation explanation
-    with st.expander("📖 What Do 'Equal Prediction Gap' and 'Equal Detection Gap' Mean?"):
-        st.markdown("""
-        **Equal Prediction Gap (Demographic Parity Difference)**
-        - Measures: Do patients from all racial groups get predicted as survivors at similar rates?
-        - Example: If 70% of White patients are predicted to survive but only 55% of Black patients, the gap is 0.15 — too high.
-        - Target: Gap ≤ 0.10 (within 10%)
+#     # Bias mitigation explanation
+#     with st.expander("📖 What Do 'Equal Prediction Gap' and 'Equal Detection Gap' Mean?"):
+#         st.markdown("""
+#         **Equal Prediction Gap (Demographic Parity Difference)**
+#         - Measures: Do patients from all racial groups get predicted as survivors at similar rates?
+#         - Example: If 70% of White patients are predicted to survive but only 55% of Black patients, the gap is 0.15 — too high.
+#         - Target: Gap ≤ 0.10 (within 10%)
 
-        **Equal Detection Gap (Equal Opportunity Difference)**
-        - Measures: Among all *actual* survivors, does the model find them equally well across all groups?
-        - Example: If the model correctly identifies 80% of White survivors but only 65% of Asian survivors, the gap is 0.15 — too high.
-        - Target: Gap ≤ 0.10
+#         **Equal Detection Gap (Equal Opportunity Difference)**
+#         - Measures: Among all *actual* survivors, does the model find them equally well across all groups?
+#         - Example: If the model correctly identifies 80% of White survivors but only 65% of Asian survivors, the gap is 0.15 — too high.
+#         - Target: Gap ≤ 0.10
 
-        **Our Bias Correction Methods:**
-        1. **Group Balancing (Re-weighting):** Give less-represented groups more weight during training so the model learns equally from all groups.
-        2. **Threshold Adjustment:** Use different decision thresholds per group to equalise survivor detection rates.
-        3. **Fairlearn ExponentiatedGradient:** Advanced mathematical method that enforces equal odds as a hard constraint during training.
-        """)
+#         **Our Bias Correction Methods:**
+#         1. **Group Balancing (Re-weighting):** Give less-represented groups more weight during training so the model learns equally from all groups.
+#         2. **Threshold Adjustment:** Use different decision thresholds per group to equalise survivor detection rates.
+#         3. **Fairlearn ExponentiatedGradient:** Advanced mathematical method that enforces equal odds as a hard constraint during training.
+#         """)
 
-    # Group-level fairness table from JSON
-    if fairness_data:
-        best_name2 = best_info.get('best_model_name', list(fairness_data.keys())[0]) if best_info else list(fairness_data.keys())[0]
-        if best_name2 in fairness_data:
-            groups_dict = fairness_data[best_name2].get('groups', {})
-            if groups_dict:
-                st.markdown("---")
-                st.markdown("**Model Performance by Patient Group**")
-                group_rows = []
-                for g, stats in groups_dict.items():
-                    short_g = (g.replace('Native Hawaiian or other Pacific Islander','Pacific Islander')
-                                .replace('American Indian or Alaska Native','Native American')
-                                .replace('Black or African-American','Black / African-American'))
-                    dp_ok = '✅' if stats['positive_rate'] > 0 else '—'
-                    group_rows.append({
-                        'Patient Group'             : short_g,
-                        'No. of Patients'           : f"{stats['n']:,}",
-                        'Actual Survival Rate'      : f"{stats['prev']*100:.1f}%",
-                        'Model Predicted Rate'      : f"{stats['positive_rate']*100:.1f}%",
-                        'Survivor Detection (TPR)'  : f"{stats['tpr']*100:.1f}%",
-                        'Accuracy (AUC)'            : f"{stats['auc']:.3f}",
-                    })
-                gdf = pd.DataFrame(group_rows)
-                gdf.index = range(1, len(gdf)+1)
-                st.dataframe(gdf, use_container_width=True)
+#     # Group-level fairness table from JSON
+#     if fairness_data:
+#         best_name2 = best_info.get('best_model_name', list(fairness_data.keys())[0]) if best_info else list(fairness_data.keys())[0]
+#         if best_name2 in fairness_data:
+#             groups_dict = fairness_data[best_name2].get('groups', {})
+#             if groups_dict:
+#                 st.markdown("---")
+#                 st.markdown("**Model Performance by Patient Group**")
+#                 group_rows = []
+#                 for g, stats in groups_dict.items():
+#                     short_g = (g.replace('Native Hawaiian or other Pacific Islander','Pacific Islander')
+#                                 .replace('American Indian or Alaska Native','Native American')
+#                                 .replace('Black or African-American','Black / African-American'))
+#                     dp_ok = '✅' if stats['positive_rate'] > 0 else '—'
+#                     group_rows.append({
+#                         'Patient Group'             : short_g,
+#                         'No. of Patients'           : f"{stats['n']:,}",
+#                         'Actual Survival Rate'      : f"{stats['prev']*100:.1f}%",
+#                         'Model Predicted Rate'      : f"{stats['positive_rate']*100:.1f}%",
+#                         'Survivor Detection (TPR)'  : f"{stats['tpr']*100:.1f}%",
+#                         'Accuracy (AUC)'            : f"{stats['auc']:.3f}",
+#                     })
+#                 gdf = pd.DataFrame(group_rows)
+#                 gdf.index = range(1, len(gdf)+1)
+#                 st.dataframe(gdf, use_container_width=True)
 
 # ════════════════════════════════════════════════════════════════════════════════
 #  TAB 5 — ABOUT

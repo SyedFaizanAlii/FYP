@@ -2,14 +2,7 @@
 =============================================================
 Equitable Survival Prediction after Hematopoietic Cell Transplant
 KFUEIT Final Year Project — Complete ML Pipeline WITH FAIRNESS
-Authors: Muzammil Tariq & Syed Faizan Ali (COSC221101046)
-
-MERGE NOTE (Final Version):
-  • Advanced doctor-friendly visuals + FEATURE_NAME_MAP  → from newpipeline.py
-  • Robust Fairlearn logic (eps=0.005, LR base)          → from pipeline.py
-  • Model priority: LR is the Fairlearn base estimator;
-    XGB/LGB included for comparison only
-  • All JSON/PKL exports match newapp.py exactly
+Authors: Muzammil Tariq (COSC221101002) & Syed Faizan Ali (COSC221101046)
 =============================================================
 """
 
@@ -411,19 +404,16 @@ print(f"  ✓ Preprocessor + feature_names.json saved")
 
 # ═══════════════════════════════════════════════════════════
 #  STEP 5 ─ MODEL TRAINING & CV EVALUATION
-#  NOTE: Logistic Regression is the primary clinical model.
-#        XGBoost / LightGBM are included for benchmarking only.
-#        The final deployed model always uses LR as its base.
 # ═══════════════════════════════════════════════════════════
 print("\n► STEP 5: Model Training & Evaluation (5-Fold CV)...")
-print("  (Primary model: Logistic Regression — basis for Fairlearn debiasing)")
+# print("  (Primary model: Logistic Regression — basis for Fairlearn debiasing)")
 
 cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-# ── Logistic Regression — primary, interpretable, fairness-compatible ─────────
+# ── Logistic Regression — 
 lr_model = LogisticRegression(C=0.5, max_iter=2000, random_state=42, n_jobs=-1)
 
-# ── XGBoost / LightGBM — benchmarks only ─────────────────────────────────────
+# ── XGBoost / LightGBM
 if HAVE_XGB:
     xgb_model = XGBClassifier(
         n_estimators=300, max_depth=6, learning_rate=0.05,
@@ -1050,10 +1040,6 @@ print(f"  ✓ Mitigation results saved → {OUT}/mitigation_results.json")
 
 # ═══════════════════════════════════════════════════════════
 #  STEP 9B ─ IN-PROCESSING FAIRLEARN WITH PROBABILITY CALIBRATION
-#  FIX: ExponentiatedGradient has NO predict_proba → use _pmf_predict()
-#  FIX: CalibratedClassifierCV wraps LogisticRegression, NOT ExponentiatedGradient
-#  FIX: ExponentiatedGradient has NO random_state parameter — removed
-#  FIX: 'subset' NameError corrected — now defined as feature_df[mask] inside loop
 # ═══════════════════════════════════════════════════════════
 print("\n► STEP 9B: Fairlearn ExponentiatedGradient + Calibration...")
 
@@ -1067,7 +1053,6 @@ if HAVE_FAIRLEARN:
     # Base learner — LogisticRegression is stable with ExponentiatedGradient
     base_estimator = LogisticRegression(C=0.1, max_iter=1000, random_state=42)
 
-    # NOTE: ExponentiatedGradient does NOT accept random_state parameter
     fair_learner = ExponentiatedGradient(
         estimator=base_estimator,
         constraints=EqualizedOdds(),
@@ -1080,7 +1065,6 @@ if HAVE_FAIRLEARN:
     print("  Training with Fairlearn ExponentiatedGradient...")
     fair_learner.fit(X, y, sensitive_features=sensitive_array)
 
-    # ── Use _pmf_predict() — predict_proba() does NOT exist in fairlearn >= 0.7
     # _pmf_predict() returns [n_samples, n_classes]; column 1 = P(class=1)
     y_prob_fair = fair_learner._pmf_predict(X)[:, 1]
     y_pred_fair = fair_learner.predict(X)
